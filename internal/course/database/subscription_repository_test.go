@@ -16,9 +16,9 @@ var (
 	subscription = domain.Subscription{
 		ID:        1,
 		UUID:      utils.SubscriptionUUID,
-		UserID:    utils.UserUUID,
-		CourseID:  utils.CourseUUID,
-		MatrixID:  &utils.MatrixUUID,
+		UserUUID:  utils.UserUUID,
+		CourseID:  utils.CourseID,
+		MatrixID:  &utils.MatrixID,
 		ExpiresAt: &utils.Now,
 		CreatedAt: utils.Now,
 		UpdatedAt: utils.Now,
@@ -31,13 +31,13 @@ func newSubscriptionTestDB() (*sqlx.DB, sqlmock.Sqlmock, map[string]*sqlmock.Exp
 }
 
 func TestRepository_Subscription(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_id", "course_id", "matrix_id",
+	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_uuid", "course_id", "matrix_id",
 		"expires_at", "created_at", "updated_at", "deleted_at"}).
-		AddRow(subscription.ID, subscription.UUID, subscription.UserID, subscription.CourseID, subscription.MatrixID,
+		AddRow(subscription.ID, subscription.UUID, subscription.UserUUID, subscription.CourseID, subscription.MatrixID,
 			subscription.ExpiresAt, subscription.CreatedAt, subscription.UpdatedAt, subscription.DeletedAt)
 
 	type args struct {
-		id uuid.UUID
+		subscriptionUUID uuid.UUID
 	}
 
 	tests := []struct {
@@ -49,14 +49,14 @@ func TestRepository_Subscription(t *testing.T) {
 	}{
 		{
 			name:    "get subscription",
-			args:    args{id: utils.SubscriptionUUID},
+			args:    args{subscriptionUUID: utils.SubscriptionUUID},
 			rows:    validRows,
 			want:    subscription,
 			wantErr: false,
 		},
 		{
 			name:    "course not found error",
-			args:    args{id: uuid.MustParse("8281f61e-956e-4f64-ac0e-860c444c5f86")},
+			args:    args{subscriptionUUID: uuid.MustParse("8281f61e-956e-4f64-ac0e-860c444c5f86")},
 			rows:    utils.EmptyRows,
 			want:    domain.Subscription{},
 			wantErr: true,
@@ -80,7 +80,7 @@ func TestRepository_Subscription(t *testing.T) {
 
 			prep.ExpectQuery().WithArgs(utils.SubscriptionUUID).WillReturnRows(tt.rows)
 
-			got, err := r.Subscription(tt.args.id)
+			got, err := r.Subscription(tt.args.subscriptionUUID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Course() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -93,11 +93,11 @@ func TestRepository_Subscription(t *testing.T) {
 }
 
 func TestRepository_Subscriptions(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_id", "course_id", "matrix_id", "expires_at",
+	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_uuid", "course_id", "matrix_id", "expires_at",
 		"created_at", "updated_at", "deleted_at"}).
-		AddRow(subscription.ID, subscription.UUID, subscription.UserID, subscription.CourseID, subscription.MatrixID,
+		AddRow(subscription.ID, subscription.UUID, subscription.UserUUID, subscription.CourseID, subscription.MatrixID,
 			subscription.ExpiresAt, subscription.CreatedAt, subscription.UpdatedAt, subscription.DeletedAt).
-		AddRow(2, uuid.MustParse("7aec21ad-2fa8-4ddd-b5af-073144031ecc"), subscription.UserID,
+		AddRow(2, uuid.MustParse("7aec21ad-2fa8-4ddd-b5af-073144031ecc"), subscription.UserUUID,
 			subscription.CourseID, subscription.MatrixID, subscription.ExpiresAt, subscription.CreatedAt,
 			subscription.UpdatedAt, subscription.DeletedAt)
 
@@ -151,9 +151,9 @@ func TestRepository_Subscriptions(t *testing.T) {
 }
 
 func TestRepository_CreateSubscription(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_id", "course_id", "matrix_id",
+	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_uuid", "course_id", "matrix_id",
 		"expires_at", "created_at", "updated_at", "deleted_at"}).
-		AddRow(subscription.ID, subscription.UUID, subscription.UserID, subscription.CourseID, subscription.MatrixID,
+		AddRow(subscription.ID, subscription.UUID, subscription.UserUUID, subscription.CourseID, subscription.MatrixID,
 			subscription.ExpiresAt, subscription.CreatedAt, subscription.UpdatedAt, subscription.DeletedAt)
 
 	type args struct {
@@ -205,9 +205,9 @@ func TestRepository_CreateSubscription(t *testing.T) {
 }
 
 func TestRepository_UpdateSubscription(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_id", "course_id", "matrix_id",
+	validRows := sqlmock.NewRows([]string{"id", "uuid", "user_uuid", "course_id", "matrix_id",
 		"expires_at", "created_at", "updated_at", "deleted_at"}).
-		AddRow(subscription.ID, subscription.UUID, subscription.UserID, subscription.CourseID, subscription.MatrixID,
+		AddRow(subscription.ID, subscription.UUID, subscription.UserUUID, subscription.CourseID, subscription.MatrixID,
 			subscription.ExpiresAt, subscription.CreatedAt, subscription.UpdatedAt, subscription.DeletedAt)
 
 	type fields struct {

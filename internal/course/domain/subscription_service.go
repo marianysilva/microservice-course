@@ -8,8 +8,8 @@ import (
 )
 
 type SubscriptionFilters struct {
-	CourseID uuid.UUID `json:"course_id,omitempty"`
-	UserID   uuid.UUID `json:"user_id,omitempty"`
+	CourseUUID uuid.UUID `json:"course_uuid,omitempty"`
+	UserUUID   uuid.UUID `json:"user_uuid,omitempty"`
 }
 
 func (s *Service) Subscription(_ context.Context, id uuid.UUID) (Subscription, error) {
@@ -24,12 +24,12 @@ func (s *Service) Subscription(_ context.Context, id uuid.UUID) (Subscription, e
 func (s *Service) Subscriptions(_ context.Context, filters *SubscriptionFilters) ([]Subscription, error) {
 	list, err := func() ([]Subscription, error) {
 		if filters != nil {
-			if filters.UserID != uuid.Nil {
-				return s.subscriptions.UserSubscriptions(filters.UserID)
+			if filters.UserUUID != uuid.Nil {
+				return s.subscriptions.UserSubscriptions(filters.UserUUID)
 			}
 
-			if filters.CourseID != uuid.Nil {
-				return s.subscriptions.CourseSubscriptions(filters.CourseID)
+			if filters.CourseUUID != uuid.Nil {
+				return s.subscriptions.CourseSubscriptions(filters.CourseUUID)
 			}
 		}
 
@@ -43,9 +43,9 @@ func (s *Service) Subscriptions(_ context.Context, filters *SubscriptionFilters)
 }
 
 func (s *Service) CreateSubscription(_ context.Context, sub *Subscription) error {
-	_, err := s.courses.Course(sub.CourseID)
+	_, err := s.courses.CourseByID(sub.CourseID)
 	if err != nil {
-		return fmt.Errorf("error checking if course %s exists: %w", sub.CourseID, err)
+		return fmt.Errorf("error checking if course %d exists: %w", sub.CourseID, err)
 	}
 
 	if err := s.subscriptions.CreateSubscription(sub); err != nil {

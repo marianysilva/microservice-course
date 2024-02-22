@@ -15,18 +15,18 @@ import (
 )
 
 type createSubscriptionRequest struct {
-	UserID    uuid.UUID  `json:"user_id"      validate:"required"`
-	CourseID  uuid.UUID  `json:"course_id"    validate:"required"`
-	MatrixID  *uuid.UUID `json:"matrix_id"`
+	UserUUID  uuid.UUID  `json:"user_uuid"      validate:"required"`
+	CourseID  uint       `json:"course_id"    validate:"required"`
+	MatrixID  *uint      `json:"matrix_id"`
 	Role      string     `validate:"required"`
 	ExpiresAt *time.Time `json:"expires_at"`
 }
 
 type createSubscriptionResponse struct {
 	UUID      uuid.UUID  `json:"uuid"`
-	UserID    uuid.UUID  `json:"user_id"`
-	CourseID  uuid.UUID  `json:"course_id"`
-	MatrixID  *uuid.UUID `json:"matrix_id,omitempty"`
+	UserUUID  uuid.UUID  `json:"user_uuid"`
+	CourseID  uint       `json:"course_id"`
+	MatrixID  *uint      `json:"matrix_id,omitempty"`
 	Role      string     `json:"role"`
 	ExpiresAt *time.Time `json:"expires_at,omitempty"`
 }
@@ -64,7 +64,7 @@ func makeCreateSubscriptionEndpoint(s domain.ServiceInterface) endpoint.Endpoint
 
 		return createSubscriptionResponse{
 			UUID:      sub.UUID,
-			UserID:    sub.UserID,
+			UserUUID:  sub.UserUUID,
 			CourseID:  sub.CourseID,
 			MatrixID:  sub.MatrixID,
 			Role:      sub.Role,
