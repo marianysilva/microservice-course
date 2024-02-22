@@ -13,10 +13,12 @@ import (
 
 var (
 	Now              = time.Now()
+	CourseID         = uint(1)
 	CourseUUID       = uuid.MustParse("e8276e31-9a87-4cf1-a16c-080f9c5790d1")
+	SubscriptionID   = uint(1)
 	SubscriptionUUID = uuid.MustParse("dd7c915b-849a-4ba4-bc09-aeecd95c40cc")
 	UserUUID         = uuid.MustParse("ef2bc01e-be93-4a1f-9e96-c78d3d432088")
-	MatrixUUID       = uuid.MustParse("0ac0fe6f-4f34-468d-84f9-9e4fc56b0135")
+	MatrixID         = uint(1)
 	EmptyRows        = sqlmock.NewRows([]string{})
 )
 

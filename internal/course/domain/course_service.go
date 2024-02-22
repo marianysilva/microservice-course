@@ -42,7 +42,7 @@ func (s *Service) UpdateCourse(_ context.Context, c *Course) error {
 	if exists.Code == c.Code {
 		err = s.courses.UpdateCourseByCode(c)
 	} else {
-		err = s.courses.UpdateCourseByID(c)
+		err = s.courses.UpdateCourseByUUID(c)
 	}
 
 	if err != nil {

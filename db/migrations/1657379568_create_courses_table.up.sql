@@ -2,7 +2,7 @@ BEGIN;
 
 CREATE TABLE courses
 (
-    id              bigserial       CONSTRAINT courses_pk PRIMARY KEY,
+    id              integer         PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     uuid            uuid            DEFAULT uuid_generate_v4() NOT NULL,
     code            varchar         NOT NULL UNIQUE,
     name            varchar         NOT NULL,
@@ -16,8 +16,6 @@ CREATE TABLE courses
     deleted_at      timestamp
 );
 
-CREATE UNIQUE INDEX courses_id_uindex
-    ON courses (id);
 CREATE UNIQUE INDEX courses_uuid_uindex
     ON courses (uuid);
 
