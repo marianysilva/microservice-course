@@ -66,14 +66,14 @@ func makeFindCourseEndpoint(s domain.ServiceInterface) endpoint.Endpoint {
 
 func decodeFindCourseRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	vars := mux.Vars(r)
-	id, ok := vars["uuid"]
+	courseUUID, ok := vars["uuid"]
 	if !ok {
 		return nil, fmt.Errorf("invalid argument")
 	}
 
-	uid := uuid.MustParse(id)
+	UUID := uuid.MustParse(courseUUID)
 
-	return findCourseRequest{UUID: uid}, nil
+	return findCourseRequest{UUID: UUID}, nil
 }
 
 func encodeFindCourseResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {

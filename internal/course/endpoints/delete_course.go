@@ -44,17 +44,17 @@ func makeDeleteCourseEndpoint(s domain.ServiceInterface) endpoint.Endpoint {
 
 func decodeDeleteCourseRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	vars := mux.Vars(r)
-	id, ok := vars["uuid"]
+	courseUUID, ok := vars["uuid"]
 	if !ok {
 		return nil, fmt.Errorf("invalid argument")
 	}
 
-	uid, err := uuid.Parse(id)
+	UUID, err := uuid.Parse(courseUUID)
 	if err != nil {
 		return nil, err
 	}
 
-	return deleteCourseRequest{UUID: uid}, nil
+	return deleteCourseRequest{UUID: UUID}, nil
 }
 
 func encodeDeleteCourseResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {

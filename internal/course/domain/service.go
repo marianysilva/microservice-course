@@ -9,11 +9,11 @@ import (
 
 // ServiceInterface defines the domains Service interface.
 type ServiceInterface interface {
-	Course(ctx context.Context, id uuid.UUID) (Course, error)
+	Course(ctx context.Context, courseUUID uuid.UUID) (Course, error)
 	Courses(ctx context.Context) ([]Course, error)
 	CreateCourse(ctx context.Context, c *Course) error
 	UpdateCourse(ctx context.Context, c *Course) error
-	DeleteCourse(ctx context.Context, courseID uuid.UUID) error
+	DeleteCourse(ctx context.Context, courseUUID uuid.UUID) error
 
 	Subscription(ctx context.Context, id uuid.UUID) (Subscription, error)
 	Subscriptions(ctx context.Context, filters *SubscriptionFilters) ([]Subscription, error)

@@ -85,7 +85,7 @@ func makeUpdateCourseEndpoint(s domain.ServiceInterface) endpoint.Endpoint {
 
 func decodeUpdateCourseRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	vars := mux.Vars(r)
-	id, ok := vars["uuid"]
+	courseUUID, ok := vars["uuid"]
 	if !ok {
 		return nil, fmt.Errorf("invalid argument")
 	}
@@ -96,7 +96,7 @@ func decodeUpdateCourseRequest(_ context.Context, r *http.Request) (interface{},
 		return nil, err
 	}
 
-	req.UUID = uuid.MustParse(id)
+	req.UUID = uuid.MustParse(courseUUID)
 
 	return req, nil
 }

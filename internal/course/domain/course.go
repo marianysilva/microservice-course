@@ -8,7 +8,6 @@ import (
 
 // Course struct.
 type Course struct {
-	ID          uint       `json:"id"`
 	UUID        uuid.UUID  `json:"uuid"`
 	Code        string     `json:"code"`
 	Name        string     `json:"name"`

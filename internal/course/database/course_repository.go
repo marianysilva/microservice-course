@@ -50,20 +50,6 @@ func (r CourseRepository) Course(courseUUID uuid.UUID) (domain.Course, error) {
 	return c, nil
 }
 
-// Course get the Course by given id.
-func (r CourseRepository) CourseByID(courseID uint) (domain.Course, error) {
-	stmt, err := r.statement(getCourseByID)
-	if err != nil {
-		return domain.Course{}, err
-	}
-
-	var c domain.Course
-	if err := stmt.Get(&c, courseID); err != nil {
-		return domain.Course{}, errors.WrapErrorf(err, errors.ErrCodeUnknown, "error getting course")
-	}
-	return c, nil
-}
-
 // Courses list all courses.
 func (r CourseRepository) Courses() ([]domain.Course, error) {
 	stmt, err := r.statement(listCourse)
@@ -149,7 +135,7 @@ func (r CourseRepository) UpdateCourseByCode(c *domain.Course) error {
 	return nil
 }
 
-// DeleteCourse soft delete the course by given id.
+// DeleteCourse soft delete the course by given uuid.
 func (r CourseRepository) DeleteCourse(courseUUID uuid.UUID) error {
 	stmt, err := r.statement(deleteCourse)
 	if err != nil {

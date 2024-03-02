@@ -14,7 +14,6 @@ import (
 
 var (
 	course = domain.Course{
-		ID:          1,
 		UUID:        utils.CourseUUID,
 		Code:        "SUME123",
 		Name:        "Course Name",
@@ -34,9 +33,9 @@ func newCourseTestDB() (*sqlx.DB, sqlmock.Sqlmock, map[string]*sqlmock.ExpectedP
 }
 
 func TestRepository_Course(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
+	validRows := sqlmock.NewRows([]string{"uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
 		"description", "created_at", "updated_at", "deleted_at"}).
-		AddRow(course.ID, course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
+		AddRow(course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
 			course.Excerpt, course.Description, course.CreatedAt, course.UpdatedAt, course.DeletedAt)
 
 	type args struct {
@@ -95,74 +94,12 @@ func TestRepository_Course(t *testing.T) {
 	}
 }
 
-func TestRepository_CourseByID(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
-		"description", "created_at", "updated_at", "deleted_at"}).
-		AddRow(course.ID, course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
-			course.Excerpt, course.Description, course.CreatedAt, course.UpdatedAt, course.DeletedAt)
-
-	type args struct {
-		courseID uint
-	}
-
-	tests := []struct {
-		name    string
-		args    args
-		rows    *sqlmock.Rows
-		want    domain.Course
-		wantErr bool
-	}{
-		{
-			name:    "get course",
-			args:    args{courseID: course.ID},
-			rows:    validRows,
-			want:    course,
-			wantErr: false,
-		},
-		{
-			name:    "course not found error",
-			args:    args{courseID: 123},
-			rows:    utils.EmptyRows,
-			want:    domain.Course{},
-			wantErr: true,
-		},
-	}
-
-	for _, tt := range tests {
-		tt := tt
-		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-
-			db, _, stmts := newCourseTestDB()
-			r, err := NewCourseRepository(db)
-			if err != nil {
-				t.Fatalf("an error '%s' was not expected when creating the CourseRepository", err)
-			}
-			prep, ok := stmts[getCourseByID]
-			if !ok {
-				t.Fatalf("prepared statement %s not found", getCourseByID)
-			}
-
-			prep.ExpectQuery().WithArgs(utils.CourseID).WillReturnRows(validRows)
-
-			got, err := r.CourseByID(tt.args.courseID)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("CourseByID() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("CourseByID() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestRepository_Courses(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
+	validRows := sqlmock.NewRows([]string{"uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
 		"description", "created_at", "updated_at", "deleted_at"}).
-		AddRow(course.ID, course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
+		AddRow(course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
 			course.Excerpt, course.Description, course.CreatedAt, course.UpdatedAt, course.DeletedAt).
-		AddRow(2, uuid.MustParse("7aec21ad-2fa8-4ddd-b5af-073144031ecc"), course.Code, course.Name,
+		AddRow(uuid.MustParse("7aec21ad-2fa8-4ddd-b5af-073144031ecc"), course.Code, course.Name,
 			course.Underline, course.Image, course.ImageCover, course.Excerpt, course.Description, course.CreatedAt,
 			course.UpdatedAt, course.DeletedAt)
 
@@ -216,9 +153,9 @@ func TestRepository_Courses(t *testing.T) {
 }
 
 func TestRepository_CreateCourse(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
+	validRows := sqlmock.NewRows([]string{"uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
 		"description", "created_at", "updated_at", "deleted_at"}).
-		AddRow(course.ID, course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
+		AddRow(course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
 			course.Excerpt, course.Description, course.CreatedAt, course.UpdatedAt, course.DeletedAt)
 
 	type args struct {
@@ -270,9 +207,9 @@ func TestRepository_CreateCourse(t *testing.T) {
 }
 
 func TestRepository_UpdateCourseByUUID(t *testing.T) {
-	validRows := sqlmock.NewRows([]string{"id", "uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
+	validRows := sqlmock.NewRows([]string{"uuid", "code", "name", "underline", "image", "image_cover", "excerpt",
 		"description", "created_at", "updated_at", "deleted_at"}).
-		AddRow(course.ID, course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
+		AddRow(course.UUID, course.Code, course.Name, course.Underline, course.Image, course.ImageCover,
 			course.Excerpt, course.Description, course.CreatedAt, course.UpdatedAt, course.DeletedAt)
 
 	type args struct {
