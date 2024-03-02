@@ -8,6 +8,6 @@ type SubscriptionRepository interface {
 	CreateSubscription(subscription *Subscription) error
 	UpdateSubscription(subscription *Subscription) error
 	DeleteSubscription(subscriptionUUID uuid.UUID) error
-	CourseSubscriptions(CourseUUID uuid.UUID) ([]Subscription, error)
+	CourseSubscriptions(courseUUID uuid.UUID) ([]Subscription, error)
 	UserSubscriptions(userUUID uuid.UUID) ([]Subscription, error)
 }

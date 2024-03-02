@@ -3,7 +3,7 @@ package database
 import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"github.com/sumelms/microservice-course/internal/course/domain"
+	"github.com/sumelms/microservice-course/internal/subscriptions/domain"
 	"github.com/sumelms/microservice-course/pkg/errors"
 )
 
@@ -72,8 +72,8 @@ func (r SubscriptionRepository) CreateSubscription(s *domain.Subscription) error
 	}
 
 	args := []interface{}{
-		s.CourseID,
-		s.MatrixID,
+		s.CourseUUID,
+		s.MatrixUUID,
 		s.UserUUID,
 		s.Role,
 		s.ExpiresAt,
@@ -91,9 +91,6 @@ func (r SubscriptionRepository) UpdateSubscription(s *domain.Subscription) error
 	}
 
 	args := []interface{}{
-		s.UserUUID,
-		s.CourseID,
-		s.MatrixID,
 		s.Role,
 		s.ExpiresAt,
 		// where

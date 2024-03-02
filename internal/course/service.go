@@ -14,15 +14,10 @@ func NewService(db *sqlx.DB, logger log.Logger) (*domain.Service, error) {
 	if err != nil {
 		return nil, err
 	}
-	subscription, err := database.NewSubscriptionRepository(db)
-	if err != nil {
-		return nil, err
-	}
 
 	service, err := domain.NewService(
 		domain.WithLogger(logger),
-		domain.WithCourseRepository(course),
-		domain.WithSubscriptionRepository(subscription))
+		domain.WithCourseRepository(course))
 	if err != nil {
 		return nil, err
 	}

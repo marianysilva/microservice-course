@@ -8,7 +8,7 @@ import (
 	"github.com/go-kit/kit/endpoint"
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/google/uuid"
-	"github.com/sumelms/microservice-course/internal/course/domain"
+	"github.com/sumelms/microservice-course/internal/subscriptions/domain"
 )
 
 type listSubscriptionRequest struct {
@@ -55,8 +55,8 @@ func makeListSubscriptionEndpoint(s domain.ServiceInterface) endpoint.Endpoint {
 			list = append(list, findSubscriptionResponse{
 				UUID:      sub.UUID,
 				UserUUID:  sub.UserUUID,
-				CourseID:  sub.CourseID,
-				MatrixID:  sub.MatrixID,
+				Course:    sub.Course,
+				Matrix:    sub.Matrix,
 				Role:      sub.Role,
 				ExpiresAt: sub.ExpiresAt,
 				CreatedAt: sub.CreatedAt,

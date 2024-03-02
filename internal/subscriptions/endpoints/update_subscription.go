@@ -11,28 +11,25 @@ import (
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
-	"github.com/sumelms/microservice-course/internal/course/domain"
+	"github.com/sumelms/microservice-course/internal/subscriptions/domain"
 	"github.com/sumelms/microservice-course/pkg/validator"
 )
 
 type updateSubscriptionRequest struct {
 	UUID       uuid.UUID  `json:"uuid"        validate:"required"`
-	UserUUID   uuid.UUID  `json:"user_uuid"     validate:"required"`
-	CourseID   uint       `json:"course_id"   validate:"required"`
-	MatrixID   *uint      `json:"matrix_id"`
 	Role       string     `json:"role"`
 	ValidUntil *time.Time `json:"valid_until"`
 }
 
 type updateSubscriptionResponse struct {
-	UUID      uuid.UUID  `json:"uuid"`
-	UserUUID  uuid.UUID  `json:"user_uuid"`
-	CourseID  uint       `json:"course_id"`
-	MatrixID  *uint      `json:"matrix_id,omitempty"`
-	Role      string     `json:"role"`
-	ExpiresAt *time.Time `json:"expires_at,omitempty"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
+	UUID      uuid.UUID      `json:"uuid"`
+	UserUUID  uuid.UUID      `json:"user_uuid"`
+	Course    domain.Course  `json:"course"`
+	Matrix    *domain.Matrix `json:"matrix,omitempty"`
+	Role      string         `json:"role"`
+	ExpiresAt *time.Time     `json:"expires_at,omitempty"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
 }
 
 func NewUpdateSubscriptionHandler(s domain.ServiceInterface, opts ...kithttp.ServerOption) *kithttp.Server {
@@ -69,8 +66,8 @@ func makeUpdateSubscriptionEndpoint(s domain.ServiceInterface) endpoint.Endpoint
 		return updateSubscriptionResponse{
 			UUID:      sub.UUID,
 			UserUUID:  sub.UserUUID,
-			CourseID:  sub.CourseID,
-			MatrixID:  sub.MatrixID,
+			Course:    sub.Course,
+			Matrix:    sub.Matrix,
 			Role:      sub.Role,
 			ExpiresAt: sub.ExpiresAt,
 			CreatedAt: sub.CreatedAt,
@@ -81,7 +78,7 @@ func makeUpdateSubscriptionEndpoint(s domain.ServiceInterface) endpoint.Endpoint
 
 func decodeUpdateSubscriptionRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	vars := mux.Vars(r)
-	id, ok := vars["uuid"]
+	subscriptionUUID, ok := vars["uuid"]
 	if !ok {
 		return nil, fmt.Errorf("invalid argument")
 	}
@@ -91,7 +88,7 @@ func decodeUpdateSubscriptionRequest(_ context.Context, r *http.Request) (interf
 		return nil, err
 	}
 
-	req.UUID = uuid.MustParse(id)
+	req.UUID = uuid.MustParse(subscriptionUUID)
 
 	return req, nil
 }

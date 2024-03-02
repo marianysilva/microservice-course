@@ -12,8 +12,8 @@ type SubscriptionFilters struct {
 	UserUUID   uuid.UUID `json:"user_uuid,omitempty"`
 }
 
-func (s *Service) Subscription(_ context.Context, id uuid.UUID) (Subscription, error) {
-	sub, err := s.subscriptions.Subscription(id)
+func (s *Service) Subscription(_ context.Context, subscriptionUUID uuid.UUID) (Subscription, error) {
+	sub, err := s.subscriptions.Subscription(subscriptionUUID)
 	if err != nil {
 		return Subscription{}, fmt.Errorf("service can't find subscription: %w", err)
 	}
@@ -43,10 +43,10 @@ func (s *Service) Subscriptions(_ context.Context, filters *SubscriptionFilters)
 }
 
 func (s *Service) CreateSubscription(_ context.Context, sub *Subscription) error {
-	_, err := s.courses.CourseByID(sub.CourseID)
-	if err != nil {
-		return fmt.Errorf("error checking if course %d exists: %w", sub.CourseID, err)
-	}
+	// _, err := s.courses.Course(sub.Course.UUID)
+	// if err != nil {
+	// 	return fmt.Errorf("error checking if course %d exists: %w", sub.Course.UUID, err)
+	// }
 
 	if err := s.subscriptions.CreateSubscription(sub); err != nil {
 		return fmt.Errorf("service can't create subscription: %w", err)
@@ -63,8 +63,8 @@ func (s *Service) UpdateSubscription(_ context.Context, sub *Subscription) error
 	return nil
 }
 
-func (s *Service) DeleteSubscription(_ context.Context, id uuid.UUID) error {
-	if err := s.subscriptions.DeleteSubscription(id); err != nil {
+func (s *Service) DeleteSubscription(_ context.Context, subscriptionUUID uuid.UUID) error {
+	if err := s.subscriptions.DeleteSubscription(subscriptionUUID); err != nil {
 		return fmt.Errorf("service can't delete subscription: %w", err)
 	}
 

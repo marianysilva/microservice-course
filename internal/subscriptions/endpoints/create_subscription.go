@@ -10,25 +10,27 @@ import (
 	"github.com/go-kit/kit/endpoint"
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/google/uuid"
-	"github.com/sumelms/microservice-course/internal/course/domain"
+	"github.com/sumelms/microservice-course/internal/subscriptions/domain"
 	"github.com/sumelms/microservice-course/pkg/validator"
 )
 
 type createSubscriptionRequest struct {
-	UserUUID  uuid.UUID  `json:"user_uuid"      validate:"required"`
-	CourseID  uint       `json:"course_id"    validate:"required"`
-	MatrixID  *uint      `json:"matrix_id"`
-	Role      string     `validate:"required"`
-	ExpiresAt *time.Time `json:"expires_at"`
+	UserUUID   uuid.UUID  `json:"user_uuid"      validate:"required"`
+	CourseUUID uuid.UUID  `json:"course_uuid"    validate:"required"`
+	MatrixUUID *uuid.UUID `json:"matrix_uuid"`
+	Role       string     `json:"role"           validate:"required"`
+	ExpiresAt  *time.Time `json:"expires_at"`
 }
 
 type createSubscriptionResponse struct {
-	UUID      uuid.UUID  `json:"uuid"`
-	UserUUID  uuid.UUID  `json:"user_uuid"`
-	CourseID  uint       `json:"course_id"`
-	MatrixID  *uint      `json:"matrix_id,omitempty"`
-	Role      string     `json:"role"`
-	ExpiresAt *time.Time `json:"expires_at,omitempty"`
+	UUID      uuid.UUID      `json:"uuid"`
+	UserUUID  uuid.UUID      `json:"user_uuid"`
+	Course    domain.Course  `json:"course"`
+	Matrix    *domain.Matrix `json:"matrix,omitempty"`
+	Role      string         `json:"role"`
+	ExpiresAt *time.Time     `json:"expires_at,omitempty"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
 }
 
 func NewCreateSubscriptionHandler(s domain.ServiceInterface, opts ...kithttp.ServerOption) *kithttp.Server {
@@ -65,10 +67,12 @@ func makeCreateSubscriptionEndpoint(s domain.ServiceInterface) endpoint.Endpoint
 		return createSubscriptionResponse{
 			UUID:      sub.UUID,
 			UserUUID:  sub.UserUUID,
-			CourseID:  sub.CourseID,
-			MatrixID:  sub.MatrixID,
+			Course:    sub.Course,
+			Matrix:    sub.Matrix,
 			Role:      sub.Role,
 			ExpiresAt: sub.ExpiresAt,
+			CreatedAt: sub.CreatedAt,
+			UpdatedAt: sub.UpdatedAt,
 		}, nil
 	}
 }
