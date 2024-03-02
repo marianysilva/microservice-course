@@ -2,7 +2,7 @@ BEGIN;
 
 CREATE TABLE subjects
 (
-    id              bigserial       CONSTRAINT subjects_pk PRIMARY KEY,
+    id              integer         PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     uuid            uuid            DEFAULT uuid_generate_v4() NOT NULL,
     code            varchar         NOT NULL UNIQUE,
     name            varchar         NOT NULL,
@@ -14,8 +14,6 @@ CREATE TABLE subjects
     deleted_at      timestamp
 );
 
-CREATE UNIQUE INDEX subjects_id_uindex
-    ON subjects (id);
 CREATE UNIQUE INDEX subjects_uuid_uindex
     ON subjects (uuid);
 
