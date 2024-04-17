@@ -24,9 +24,9 @@ type SubscriptionCourseResponse struct {
 }
 
 type SubscriptionMatrixResponse struct {
-	UUID *uuid.UUID `db:"uuid" json:"uuid,omitempty"`
-	Code *string    `db:"code" json:"code,omitempty"`
-	Name *string    `db:"name" json:"name,omitempty"`
+	UUID uuid.UUID `db:"uuid" json:"uuid"`
+	Code string    `db:"code" json:"code"`
+	Name string    `db:"name" json:"name"`
 }
 
 type SubscriptionsResponse struct {
@@ -43,7 +43,7 @@ type SubscriptionsResponse struct {
 }
 
 type ListSubscriptionsResponse struct {
-	Subscriptions []SubscriptionsResponse `json:"subscriptions"`
+	Subscriptions []*SubscriptionsResponse `json:"subscriptions"`
 }
 
 // NewListSubscriptionsHandler list subscriptions handler
@@ -67,28 +67,16 @@ func NewListSubscriptionsHandler(s domain.ServiceInterface, opts ...kithttp.Serv
 	)
 }
 
-func SerializeCourse(subscription domain.Subscription) *SubscriptionCourseResponse {
-	if subscription.Course != nil {
-		return &SubscriptionCourseResponse{
-			UUID: subscription.Course.UUID,
-			Code: subscription.Course.Code,
-			Name: subscription.Course.Name,
-		}
+func SerializeMatrix(subscription *domain.Subscription) *SubscriptionMatrixResponse {
+	if subscription.Matrix == nil {
+		return nil
 	}
 
-	return nil
-}
-
-func SerializeMatrix(subscription domain.Subscription) *SubscriptionMatrixResponse {
-	if subscription.Matrix != nil {
-		return &SubscriptionMatrixResponse{
-			UUID: subscription.Matrix.UUID,
-			Code: subscription.Matrix.Code,
-			Name: subscription.Matrix.Name,
-		}
+	return &SubscriptionMatrixResponse{
+		UUID: subscription.Matrix.UUID,
+		Code: subscription.Matrix.Code,
+		Name: subscription.Matrix.Name,
 	}
-
-	return nil
 }
 
 func makeListSubscriptionsEndpoint(s domain.ServiceInterface) endpoint.Endpoint {
@@ -111,14 +99,16 @@ func makeListSubscriptionsEndpoint(s domain.ServiceInterface) endpoint.Endpoint 
 			return nil, err
 		}
 
-		var list []SubscriptionsResponse
-		for i := range subscriptions {
-			sub := subscriptions[i]
-			list = append(list, SubscriptionsResponse{
+		var list []*SubscriptionsResponse
+		for _, sub := range subscriptions {
+			fmt.Println("======sub======")
+			fmt.Println(sub)
+			fmt.Println("======sub======")
+			list = append(list, &SubscriptionsResponse{
 				UUID:       sub.UUID,
 				UserUUID:   sub.UserUUID,
 				CourseUUID: sub.CourseUUID,
-				Course:     SerializeCourse(sub),
+				Course:     (*SubscriptionCourseResponse)(sub.Course),
 				MatrixUUID: sub.MatrixUUID,
 				Matrix:     SerializeMatrix(sub),
 				Role:       sub.Role,

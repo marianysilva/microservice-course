@@ -43,21 +43,21 @@ func TestRepository_Subscription(t *testing.T) {
 		name    string
 		args    args
 		rows    *sqlmock.Rows
-		want    domain.Subscription
+		want    *domain.Subscription
 		wantErr bool
 	}{
 		{
 			name:    "get subscription",
 			args:    args{UUID: utils.SubscriptionUUID},
 			rows:    validRows,
-			want:    subscription,
+			want:    &subscription,
 			wantErr: false,
 		},
 		{
 			name:    "course not found error",
 			args:    args{UUID: uuid.MustParse("00000000-0000-0000-0000-000000000000")},
 			rows:    utils.EmptyRows,
-			want:    domain.Subscription{},
+			want:    nil,
 			wantErr: true,
 		},
 	}
@@ -293,21 +293,21 @@ func TestRepository_UpdateSubscription(t *testing.T) {
 		fields  fields
 		rows    *sqlmock.Rows
 		args    args
-		want    domain.Subscription
+		want    *domain.Subscription
 		wantErr bool
 	}{
 		{
 			name:    "update course",
 			rows:    validRows,
 			args:    args{sub: &subscription},
-			want:    subscription,
+			want:    &subscription,
 			wantErr: false,
 		},
 		{
 			name:    "empty course",
 			rows:    utils.EmptyRows,
 			args:    args{sub: &domain.Subscription{}},
-			want:    domain.Subscription{},
+			want:    nil,
 			wantErr: true,
 		},
 	}
@@ -337,8 +337,8 @@ func TestRepository_UpdateSubscription(t *testing.T) {
 				t.Errorf("UpdateSubscription() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
-			if !tt.wantErr && !reflect.DeepEqual(*tt.args.sub, tt.want) {
-				t.Errorf("UpdateSubscription() got = \n%v, \nwant = %v", *tt.args.sub, tt.want)
+			if !tt.wantErr && !reflect.DeepEqual(tt.args.sub, tt.want) {
+				t.Errorf("UpdateSubscription() got = \n%v, \nwant = %v", tt.args.sub, tt.want)
 			}
 		})
 	}

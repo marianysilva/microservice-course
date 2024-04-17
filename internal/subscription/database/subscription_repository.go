@@ -37,29 +37,30 @@ func (r SubscriptionRepository) statement(s string) (*sqlx.Stmt, error) {
 	return stmt, nil
 }
 
-func (r SubscriptionRepository) Subscription(subscriptionUUID uuid.UUID) (domain.Subscription, error) {
+func (r SubscriptionRepository) Subscription(subscriptionUUID uuid.UUID) (*domain.Subscription, error) {
 	stmt, err := r.statement(getSubscription)
 	if err != nil {
-		return domain.Subscription{}, err
+		return nil, err
 	}
 
-	var sub domain.Subscription
-	if err := stmt.Get(&sub, subscriptionUUID); err != nil {
-		return domain.Subscription{},
+	sub := new(domain.Subscription)
+	if err := stmt.Get(sub, subscriptionUUID); err != nil {
+		return nil,
 			errors.WrapErrorf(err, errors.ErrCodeUnknown, "error getting subscription")
 	}
+
 	return sub, nil
 }
 
-func (r SubscriptionRepository) Subscriptions() ([]domain.Subscription, error) {
+func (r SubscriptionRepository) Subscriptions() ([]*domain.Subscription, error) {
 	stmt, err := r.statement(listSubscriptions)
 	if err != nil {
-		return []domain.Subscription{}, err
+		return nil, err
 	}
 
-	var subs []domain.Subscription
+	var subs []*domain.Subscription
 	if err := stmt.Select(&subs); err != nil {
-		return []domain.Subscription{},
+		return nil,
 			errors.WrapErrorf(err, errors.ErrCodeUnknown, "error getting subscriptions")
 	}
 	return subs, nil
@@ -117,10 +118,15 @@ func (r SubscriptionRepository) UpdateSubscription(sub *domain.Subscription) err
 		return errors.WrapErrorf(err, errors.ErrCodeUnknown, "error updating subscription")
 	}
 
-	updatedSub, err := r.Subscription(sub.UUID)
-	*sub = updatedSub
+	updateSub, err := r.Subscription(sub.UUID)
 
-	return err
+	if updateSub == nil {
+		sub = nil
+		return err
+	}
+
+	*sub = *updateSub
+	return nil
 }
 
 func (r SubscriptionRepository) DeleteSubscription(sub *domain.DeletedSubscription) error {
@@ -139,30 +145,30 @@ func (r SubscriptionRepository) DeleteSubscription(sub *domain.DeletedSubscripti
 	return nil
 }
 
-func (r SubscriptionRepository) CourseSubscriptions(courseUUID uuid.UUID) ([]domain.Subscription, error) {
+func (r SubscriptionRepository) CourseSubscriptions(courseUUID uuid.UUID) ([]*domain.Subscription, error) {
 	stmt, err := r.statement(courseSubscriptions)
 	if err != nil {
-		return []domain.Subscription{}, err
+		return nil, err
 	}
 
-	var subs []domain.Subscription
+	var subs []*domain.Subscription
 	if err := stmt.Select(&subs, courseUUID); err != nil {
-		return []domain.Subscription{},
+		return nil,
 			errors.WrapErrorf(err, errors.ErrCodeUnknown, "error getting course subscriptions")
 	}
 
 	return subs, nil
 }
 
-func (r SubscriptionRepository) UserSubscriptions(userUUID uuid.UUID) ([]domain.Subscription, error) {
+func (r SubscriptionRepository) UserSubscriptions(userUUID uuid.UUID) ([]*domain.Subscription, error) {
 	stmt, err := r.statement(userSubscriptions)
 	if err != nil {
-		return []domain.Subscription{}, err
+		return nil, err
 	}
 
-	var subs []domain.Subscription
+	var subs []*domain.Subscription
 	if err := stmt.Select(&subs, userUUID); err != nil {
-		return []domain.Subscription{},
+		return nil,
 			errors.WrapErrorf(err, errors.ErrCodeUnknown, "error getting user subscriptions")
 	}
 

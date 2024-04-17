@@ -9,8 +9,8 @@ import (
 
 // ServiceInterface defines the domains Service interface.
 type ServiceInterface interface {
-	Subscription(ctx context.Context, subscriptionUUID uuid.UUID) (Subscription, error)
-	Subscriptions(ctx context.Context, filters *SubscriptionFilters) ([]Subscription, error)
+	Subscription(ctx context.Context, subscriptionUUID uuid.UUID) (*Subscription, error)
+	Subscriptions(ctx context.Context, filters *SubscriptionFilters) ([]*Subscription, error)
 	CreateSubscription(ctx context.Context, subscription *Subscription) error
 	UpdateSubscription(ctx context.Context, subscription *Subscription) error
 	DeleteSubscription(ctx context.Context, subscription *DeletedSubscription) error

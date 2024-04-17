@@ -18,9 +18,9 @@ type Course struct {
 }
 
 type Matrix struct {
-	UUID *uuid.UUID `db:"uuid" json:"uuid"`
-	Code *string    `db:"code" json:"code"`
-	Name *string    `db:"name" json:"name"`
+	UUID uuid.UUID `db:"uuid" json:"uuid"`
+	Code string    `db:"code" json:"code"`
+	Name string    `db:"name" json:"name"`
 }
 
 type Subscription struct {

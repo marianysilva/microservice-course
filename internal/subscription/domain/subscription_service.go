@@ -7,17 +7,17 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *Service) Subscription(_ context.Context, subscriptionUUID uuid.UUID) (Subscription, error) {
+func (s *Service) Subscription(_ context.Context, subscriptionUUID uuid.UUID) (*Subscription, error) {
 	sub, err := s.subscriptions.Subscription(subscriptionUUID)
 	if err != nil {
-		return Subscription{}, fmt.Errorf("service can't find subscription: %w", err)
+		return nil, fmt.Errorf("service can't find subscription: %w", err)
 	}
 
 	return sub, nil
 }
 
-func (s *Service) Subscriptions(_ context.Context, filters *SubscriptionFilters) ([]Subscription, error) {
-	list, err := func() ([]Subscription, error) {
+func (s *Service) Subscriptions(_ context.Context, filters *SubscriptionFilters) ([]*Subscription, error) {
+	list, err := func() ([]*Subscription, error) {
 		if filters != nil {
 			if filters.UserUUID != uuid.Nil {
 				return s.subscriptions.UserSubscriptions(filters.UserUUID)
@@ -31,7 +31,7 @@ func (s *Service) Subscriptions(_ context.Context, filters *SubscriptionFilters)
 		return s.subscriptions.Subscriptions()
 	}()
 	if err != nil {
-		return []Subscription{}, fmt.Errorf("service didn't found any subscription: %w", err)
+		return nil, fmt.Errorf("service didn't found any subscription: %w", err)
 	}
 
 	return list, nil
