@@ -15,8 +15,8 @@ import (
 )
 
 type DeleteMatrixSubjectRequest struct {
-	MatrixUUID  uuid.UUID `json:"matrix_uuid"  validate:"required,uuid"`
-	SubjectUUID uuid.UUID `json:"subject_uuid" validate:"required,uuid"`
+	MatrixUUID  uuid.UUID `json:"matrix_uuid"  validate:"required"`
+	SubjectUUID uuid.UUID `json:"subject_uuid" validate:"required"`
 }
 
 type DeletedMatrixSubjectResponse struct {
@@ -93,9 +93,6 @@ func decodeDeleteMatrixSubjectRequest(_ context.Context, r *http.Request) (inter
 	}
 
 	var req DeleteMatrixSubjectRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		return nil, err
-	}
 
 	req.MatrixUUID = uuid.MustParse(MatrixUUID)
 	req.SubjectUUID = uuid.MustParse(SubjectUUID)

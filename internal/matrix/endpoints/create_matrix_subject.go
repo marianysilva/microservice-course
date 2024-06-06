@@ -16,8 +16,8 @@ import (
 )
 
 type CreateMatrixSubjectRequest struct {
-	MatrixUUID  uuid.UUID `json:"matrix_uuid"  validate:"required,uuid"`
-	SubjectUUID uuid.UUID `json:"subject_uuid" validate:"required,uuid"`
+	MatrixUUID  uuid.UUID `json:"matrix_uuid"  validate:"required"`
+	SubjectUUID uuid.UUID `json:"subject_uuid" validate:"required"`
 	IsRequired  bool      `json:"is_required"`
 	Group       string    `json:"group"        validate:"required"`
 }
