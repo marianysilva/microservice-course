@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "c259a481-6b8e-4e83-b78c-2d62e9162c0d",
+		"name": "Matrices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5331540"
+	},
+	"item": [
+		{
+			"name": "GET Matrices",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matrices",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD Matrices",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"course_uuid\": \"de24ef05-dd88-4cb4-b8e1-508ff6bb75d5\",\n    \"code\": \"MFOF\",\n    \"name\": \"Matriz de FOF\",\n    \"description\": \"description FOF\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matrices",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Matrices",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"MGEO\",\n    \"name\": \"Matriz de Geografia\",\n    \"description\": \"description geo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matrices/eedcacab-190d-4b23-9795-9cf16ac1ea45",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices",
+						"eedcacab-190d-4b23-9795-9cf16ac1ea45"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL Matrices",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matrices/dbb9ee94-1e6d-4693-961c-e59b7556a2e7",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices",
+						"dbb9ee94-1e6d-4693-961c-e59b7556a2e7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

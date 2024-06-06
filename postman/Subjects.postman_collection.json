@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "224007e4-1e53-4acf-8211-7c12109c8af2",
+		"name": "Subjects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5331540"
+	},
+	"item": [
+		{
+			"name": "GET Subjects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/subjects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subjects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD Subjects",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"SCCO-3\",\n    \"name\": \"Materia de Computação 3\",\n    \"objective\": \"objective CCO 3\",\n    \"credit\": 31,\n    \"workload\": 32,\n    \"published_at\": \"2024-08-25T19:25:47.738808Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/subjects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subjects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Subjects",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"SCCO-4\",\n    \"name\": \"Materia de Computação 4\",\n    \"objective\": \"objective CCO 4\",\n    \"credit\": 41,\n    \"workload\": 42,\n    \"published_at\": \"2024-09-25T19:25:47.738808Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/subjects/687bfbe1-8f51-4db0-a6bd-d833322fb4cb",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subjects",
+						"687bfbe1-8f51-4db0-a6bd-d833322fb4cb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL Subjects",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/subjects/687bfbe1-8f51-4db0-a6bd-d833322fb4cb",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subjects",
+						"687bfbe1-8f51-4db0-a6bd-d833322fb4cb"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

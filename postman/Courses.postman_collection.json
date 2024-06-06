@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "bf17253a-a37d-48ab-9799-0e00d211340d",
+		"name": "Courses",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5331540"
+	},
+	"item": [
+		{
+			"name": "GET Courses",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/courses",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD Courses",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"image\": \"image\",\n    \"code\": \"TESTE\",\n    \"image_cover\": \"image_cover\",\n    \"underline\": \"underline\",\n    \"excerpt\": \"excerpt\",\n    \"description\": \"description\",\n    \"name\": \"Aestda Astadw Asfea\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/courses",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Courses",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"AAA\",\n    \"name\": \"Aestda Astadw Asfea\",\n    \"underline\": \"underline\",\n    \"image\": \"image\",\n    \"image_cover\": \"image_cover\",\n    \"excerpt\": \"excerpt\",\n    \"description\": \"description AAAA\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/courses/04c023b6-dc64-4610-8c15-82964a1155e5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses",
+						"04c023b6-dc64-4610-8c15-82964a1155e5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL Courses",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/courses/0551ae91-6f19-4e22-b6c8-0246e5986966",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses",
+						"0551ae91-6f19-4e22-b6c8-0246e5986966"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

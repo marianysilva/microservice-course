@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "03507171-8b93-4622-be21-1f1a9eb41b8f",
+		"name": "Matrix Subjects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5331540"
+	},
+	"item": [
+		{
+			"name": "GET Matrix Subjects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matrices/b604bfb6-ba37-4e2a-ac46-7578b2bb426d/subjects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices",
+						"b604bfb6-ba37-4e2a-ac46-7578b2bb426d",
+						"subjects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD Matrix Subjects",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"group\": \"3SEM\",\n    \"is_required\": true,\n    \"subject_uuid\": \"3595d519-eec7-45af-95be-f2ccd90bfb10\",\n    \"matrix_uuid\": \"b604bfb6-ba37-4e2a-ac46-7578b2bb426d\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matrices/b604bfb6-ba37-4e2a-ac46-7578b2bb426d/subjects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices",
+						"b604bfb6-ba37-4e2a-ac46-7578b2bb426d",
+						"subjects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Matrix Subjects",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"group\": \"3SEM\",\n    \"is_required\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matrices/b604bfb6-ba37-4e2a-ac46-7578b2bb426d/subjects/3595d519-eec7-45af-95be-f2ccd90bfb10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices",
+						"b604bfb6-ba37-4e2a-ac46-7578b2bb426d",
+						"subjects",
+						"3595d519-eec7-45af-95be-f2ccd90bfb10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL Matrix Subjects",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matrices/b604bfb6-ba37-4e2a-ac46-7578b2bb426d/subjects/3595d519-eec7-45af-95be-f2ccd90bfb10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matrices",
+						"b604bfb6-ba37-4e2a-ac46-7578b2bb426d",
+						"subjects",
+						"3595d519-eec7-45af-95be-f2ccd90bfb10"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
