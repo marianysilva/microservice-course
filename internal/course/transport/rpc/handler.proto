@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package rpc;
+
+option go_package = "./internal/course/transport/rpc/pb";
+
+service Courses {
+  rpc IsActiveCourse (CourseRequest) returns (CourseResponse) {}
+}
+
+message CourseRequest {
+  string CourseUUID = 1;
+}
+
+message CourseResponse {
+  bool isActive = 1;
+}
+
+// protoc --go_out=. --go-grpc_out=. internal/course/transport/rpc/proto/*.proto

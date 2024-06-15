@@ -11,6 +11,7 @@ import (
 type Config struct {
 	Server struct {
 		HTTP *HTTPServer `validate:"required"`
+		RPC  *RPCServer  `validate:"required"`
 	} `validate:"required"`
 	Database *Database `validate:"required"`
 }
@@ -30,6 +31,11 @@ type HTTPServer struct {
 	Host     string `validate:"required"`
 	UseHTTPS bool
 	CertPath string
+}
+
+// RPCServer config struct.
+type RPCServer struct {
+	Host string `validate:"required"`
 }
 
 // NewConfig creates a new configurator.

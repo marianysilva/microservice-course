@@ -1,6 +1,8 @@
 server:
   http:
     host: ":8080"
+  rpc:
+    host: ":9000"
 database:
   driver: postgres
   host: localhost

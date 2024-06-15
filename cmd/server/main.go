@@ -24,6 +24,7 @@ import (
 var (
 	logger     log.Logger
 	httpServer *shared.Server
+	rpcServer  *shared.RPCServer
 )
 
 //nolint:funlen
@@ -117,6 +118,22 @@ func main() {
 		return httpServer.Start()
 	})
 
+	g.Go(func() error {
+		// Initializing the HTTP Services
+		rpcLogger := logger.With("component", "rpc")
+
+		// Create RPC Server
+		rpcServer, err = shared.NewRPCServer(cfg.Server.RPC, rpcLogger)
+		if err != nil {
+			logger.Log("msg", "unable to start rpc server: ", "error", err)
+			return err
+		}
+
+		course.NewRPCService(rpcServer, courseSvc)
+
+		return rpcServer.Start()
+	})
+
 	select {
 	case <-interrupt:
 		break
@@ -131,6 +148,10 @@ func main() {
 
 	if httpServer != nil {
 		httpServer.Stop(shutdownCtx)
+	}
+
+	if rpcServer != nil {
+		rpcServer.Stop(shutdownCtx)
 	}
 
 	if err := g.Wait(); err != nil {

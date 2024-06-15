@@ -7,6 +7,8 @@ import (
 	"github.com/sumelms/microservice-course/internal/course/database"
 	"github.com/sumelms/microservice-course/internal/course/domain"
 	"github.com/sumelms/microservice-course/internal/course/transport/http"
+	"github.com/sumelms/microservice-course/internal/course/transport/rpc"
+	"github.com/sumelms/microservice-course/internal/shared"
 )
 
 func NewService(db *sqlx.DB, logger log.Logger) (*domain.Service, error) {
@@ -27,4 +29,8 @@ func NewService(db *sqlx.DB, logger log.Logger) (*domain.Service, error) {
 func NewHTTPService(router *mux.Router, service domain.ServiceInterface, logger log.Logger) error {
 	http.NewHTTPHandler(router, service, logger)
 	return nil
+}
+
+func NewRPCService(server *shared.RPCServer, service domain.ServiceInterface) {
+	rpc.NewRPCHandler(server, service)
 }
