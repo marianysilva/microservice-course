@@ -12,6 +12,10 @@ func (s *Service) Subject(_ context.Context, subjectUUID uuid.UUID) (Subject, er
 	if err != nil {
 		return Subject{}, fmt.Errorf("service can't find subject: %w", err)
 	}
+
+	message := "RABBITMQ MESSAGE subjectUUID: " + subjectUUID.String()
+	s.queue.Publish(message)
+
 	return subject, nil
 }
 

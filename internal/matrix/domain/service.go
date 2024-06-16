@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-kit/log"
 	"github.com/google/uuid"
+	"github.com/sumelms/microservice-course/internal/shared"
 )
 
 type ServiceInterface interface {
@@ -33,6 +34,7 @@ type Service struct {
 	matrices MatrixRepository
 	subjects SubjectRepository
 	courses  CourseClient
+	queue    *shared.AMQPQueue
 	logger   log.Logger
 }
 
@@ -79,6 +81,14 @@ func WithLogger(l log.Logger) ServiceConfiguration {
 func WithCourseClient(courses CourseClient) ServiceConfiguration {
 	return func(svc *Service) error {
 		svc.courses = courses
+
+		return nil
+	}
+}
+
+func WithQueue(queue *shared.AMQPQueue) ServiceConfiguration {
+	return func(svc *Service) error {
+		svc.queue = queue
 
 		return nil
 	}

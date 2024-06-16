@@ -24,6 +24,7 @@ func (s *Service) Matrix(_ context.Context, matrixUUID uuid.UUID) (Matrix, error
 	if err != nil {
 		return Matrix{}, fmt.Errorf("service can't find matrix with UUID %s: %w", matrixUUID, err)
 	}
+
 	return matrix, nil
 }
 

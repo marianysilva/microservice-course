@@ -34,7 +34,7 @@ services:
     image: "rabbitmq:3-management"
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmq
-      - RABBITMQ_DEFAULT_PASS=secret@123
+      - RABBITMQ_DEFAULT_PASS=secret
     ports:
       - "15672:15672"
       - "5672:5672"

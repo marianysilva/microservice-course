@@ -47,6 +47,13 @@ func main() {
 		os.Exit(1)
 	}
 
+	amqpLogger := logger.With("component", "amqp")
+	amqpConnection, err := shared.NewAMQPConnection(cfg.AMQPClients.Courses, amqpLogger)
+	if err != nil {
+		logger.Log("msg", "unable to connect with RabbitMQ service", "error", err)
+		os.Exit(1)
+	}
+
 	// Initialize the domain services
 	svcLogger := logger.With("component", "service")
 
@@ -56,7 +63,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	matrixSvc, err := matrix.NewService(db, svcLogger.Logger(), clients.NewCourseClient(courseSvc))
+	matrixSvc, err := matrix.NewService(db, amqpConnection, clients.NewCourseClient(courseSvc), svcLogger.Logger())
 	if err != nil {
 		logger.Log("msg", "unable to start matrix service", "error", err)
 		os.Exit(1)
@@ -152,6 +159,10 @@ func main() {
 
 	if rpcServer != nil {
 		rpcServer.Stop(shutdownCtx)
+	}
+
+	if amqpConnection != nil {
+		amqpConnection.Connection.Close()
 	}
 
 	if err := g.Wait(); err != nil {

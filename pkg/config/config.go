@@ -13,6 +13,9 @@ type Config struct {
 		HTTP *HTTPServer `validate:"required"`
 		RPC  *RPCServer  `validate:"required"`
 	} `validate:"required"`
+	AMQPClients struct {
+		Courses *AMQPClient `validate:"required"`
+	}
 	Database *Database `validate:"required"`
 }
 
@@ -35,6 +38,11 @@ type HTTPServer struct {
 
 // RPCServer config struct.
 type RPCServer struct {
+	Host string `validate:"required"`
+}
+
+// AMQPClient config struct.
+type AMQPClient struct {
 	Host string `validate:"required"`
 }
 
