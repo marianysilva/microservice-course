@@ -30,5 +30,17 @@ services:
       restart_policy:
         condition: on-failure
 
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=secret@123
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - microservice_course_rabbitmq:/var/lib/rabbitmq
+
 volumes:
   microservice_course_postgres:
+  microservice_course_rabbitmq:
