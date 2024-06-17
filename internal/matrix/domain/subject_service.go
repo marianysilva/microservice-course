@@ -13,9 +13,6 @@ func (s *Service) Subject(_ context.Context, subjectUUID uuid.UUID) (Subject, er
 		return Subject{}, fmt.Errorf("service can't find subject: %w", err)
 	}
 
-	message := "RABBITMQ MESSAGE subjectUUID: " + subjectUUID.String()
-	s.queue.Publish(message)
-
 	return subject, nil
 }
 
@@ -42,8 +39,14 @@ func (s *Service) UpdateSubject(_ context.Context, subject *Subject) error {
 }
 
 func (s *Service) DeleteSubject(_ context.Context, subject *DeletedSubject) error {
+	// TODO : BEGIN TRANSACTION
 	if err := s.subjects.DeleteSubject(subject); err != nil {
 		return fmt.Errorf("service can't delete subject: %w", err)
 	}
+
+	if err := s.SubjectDeletedEvent(subject); err != nil {
+		return err
+	}
+	// TODO : COMMIT TRANSACTION
 	return nil
 }

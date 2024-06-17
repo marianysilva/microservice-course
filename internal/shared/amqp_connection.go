@@ -77,16 +77,15 @@ func (c AMQPConnection) NewAMQPQueue(queueName string) (*AMQPQueue, error) {
 	}, nil
 }
 
-func (queue AMQPQueue) Publish(message string) error {
-	m := "Message test: " + message
+func (queue AMQPQueue) Publish(jsonData []byte) error {
 	err := queue.Channel.Publish(
 		"",
 		queue.Name,
 		false,
 		false,
 		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(m),
+			ContentType: "application/json",
+			Body:        jsonData,
 		},
 	)
 
